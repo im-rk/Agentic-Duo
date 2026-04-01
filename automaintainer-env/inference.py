@@ -86,7 +86,7 @@ NEVER output anything other than the raw JSON object. Do not include markdown or
             print(f"   -> Reward: {reward.value} | Reason: {reward.reasoning}")
             
             # Prevent hitting rate limits during the hackathon validation
-            time.sleep(1) 
+            time.sleep(4) 
             
         except json.JSONDecodeError:
             print("⚠️ LLM output invalid JSON. Penalizing and retrying...")

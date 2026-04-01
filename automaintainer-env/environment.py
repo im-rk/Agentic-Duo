@@ -99,8 +99,11 @@ class AutoMaintainerEnv:
             # --- ACTION: EDIT FILE ---
             elif action.action_type == "EDIT_FILE":
                 target_path = os.path.join(self.workspace_dir, action.filepath)
+                # FIX: Protect against the LLM forgetting the content
+                safe_content = action.new_content if action.new_content is not None else ""
+                
                 with open(target_path, "w") as f:
-                    f.write(action.new_content)
+                    f.write(safe_content)
                 self.current_test_output = f"Successfully updated {action.filepath}."
                 reward_value = 0.1
                 reward_reason = "File edited successfully."
