@@ -1,1 +1,40 @@
 \venv
+\.venv
+# Environments
+.env
+.venv/
+venv/
+env/
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Pytest & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS Generated
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Project Specific (Temporary workspaces)
+workspace/
+/tmp/
+
+# NOTE: Do NOT ignore uv.lock, requirements.txt, or openenv.yaml! 
+# Those must be committed for the hackathon deployment to work.

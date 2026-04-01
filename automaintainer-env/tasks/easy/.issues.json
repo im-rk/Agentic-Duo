@@ -1,0 +1,20 @@
+[
+  {
+    "id": "#101",
+    "title": "CI is failing on main branch",
+    "body": "The add_numbers function seems to be returning incorrect values. Pytest is failing.",
+    "label": null
+  },
+  {
+    "id": "#102",
+    "title": "We need a divide function",
+    "body": "It would be great if we could add a function to handle division in the next release.",
+    "label": null
+  },
+  {
+    "id": "#103",
+    "title": "Update README with examples",
+    "body": "The current documentation is empty. Please add code examples for how to use math_utils.py.",
+    "label": null
+  }
+]

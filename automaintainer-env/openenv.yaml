@@ -1,0 +1,13 @@
+name: "AutoMaintainerEnv"
+version: "1.0.0"
+description: "An autonomous CI/CD and triage sandbox. The agent acts as a lead open-source maintainer, resolving broken tests, fixing dependency conflicts, and labeling issues."
+author: "Agentic Duo"
+entrypoint: "environment:AutoMaintainerEnv"
+models:
+  observation: "models:Observation"
+  action: "models:Action"
+  reward: "models:Reward"
+tags:
+  - "code-review"
+  - "ci-cd"
+  - "software-engineering"
