@@ -1,0 +1,8 @@
+[
+  {
+    "id": "#301",
+    "title": "KeyError in get_user_status_endpoint",
+    "body": "Production is returning 500s. Traceback points to a KeyError: 'status' in api.py. Please fix the upstream data source.",
+    "label": null
+  }
+]
