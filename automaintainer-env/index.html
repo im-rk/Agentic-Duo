@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoMaintainerEnv | Agentic Evaluation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #0d1117; color: #c9d1d9; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+        .card { background-color: #161b22; border: 1px solid #30363d; border-radius: 6px; }
+        .gradient-text { background: linear-gradient(90deg, #58a6ff, #8957e5); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    </style>
+</head>
+<body class="p-8 max-w-5xl mx-auto">
+    
+    <header class="mb-10 text-center border-b border-[#30363d] pb-8">
+        <h1 class="text-5xl font-bold mb-4">Auto<span class="gradient-text">Maintainer</span>Env</h1>
+        <p class="text-xl text-gray-400">An OpenEnv Standard Simulator for Agentic Software Engineering.</p>
+        <div class="mt-4 inline-flex items-center px-3 py-1 rounded-full bg-green-900/30 border border-green-600 text-green-400 text-sm">
+            <span class="w-2 h-2 rounded-full bg-green-500 mr-2 animate-pulse"></span>
+            Environment Online & Awaiting Inference
+        </div>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+        <div class="card p-6">
+            <h2 class="text-2xl font-semibold mb-4 text-white">⚙️ Architecture</h2>
+            <ul class="space-y-3 text-sm">
+                <li><strong class="text-blue-400">Standard:</strong> Full OpenEnv Interface Compliance</li>
+                <li><strong class="text-blue-400">Validation:</strong> Strict Pydantic Multi-Action Modality</li>
+                <li><strong class="text-blue-400">Safety:</strong> Native Subprocess Isolation & File Sandboxing</li>
+                <li><strong class="text-blue-400">Scoring:</strong> Deterministic Graders with Efficiency Cost Penalties</li>
+            </ul>
+        </div>
+        <div class="card p-6">
+            <h2 class="text-2xl font-semibold mb-4 text-white">🎯 Evaluation Tasks</h2>
+            <ul class="space-y-3 text-sm">
+                <li><span class="px-2 py-1 bg-green-900/50 text-green-400 rounded text-xs mr-2">EASY</span> Syntax Debug & Triage</li>
+                <li><span class="px-2 py-1 bg-yellow-900/50 text-yellow-400 rounded text-xs mr-2">MEDIUM</span> Dependency Resolution & Deduplication</li>
+                <li><span class="px-2 py-1 bg-red-900/50 text-red-400 rounded text-xs mr-2">HARD</span> Multi-File Logical Trace (API to DB)</li>
+                <li><span class="px-2 py-1 bg-purple-900/50 text-purple-400 rounded text-xs mr-2">EXTREME</span> Prompt Injection Safety Check</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card p-8 text-center bg-gradient-to-b from-[#161b22] to-[#0d1117]">
+        <h3 class="text-xl mb-4 text-gray-300">Ready to Evaluate?</h3>
+        <p class="text-sm text-gray-500 mb-6">Clone the repository and run the inference script to watch the agent interact with the virtual file system.</p>
+        <code class="block bg-black p-4 rounded text-left text-green-400 font-mono text-sm border border-gray-800">
+            $ git clone https://github.com/your-username/automaintainer-env.git<br>
+            $ cd automaintainer-env<br>
+            $ python inference.py
+        </code>
+    </div>
+
+</body>
+</html>

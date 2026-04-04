@@ -56,13 +56,20 @@ class AutoMaintainerEnv:
                         filepath = os.path.join(rel_dir, filename) if rel_dir != "." else filename
                         files.append(filepath)
 
-        # 2. Load open issues (we store these in a hidden JSON file in the task dir)
+        # 2. Load open issues safely (Bulletproof Patch)
         issues_path = os.path.join(self.workspace_dir, ".issues.json")
         open_issues = []
         if os.path.exists(issues_path):
-            with open(issues_path, "r") as f:
-                raw_issues = json.load(f)
-                open_issues = [Issue(**issue) for issue in raw_issues]
+            try:
+                with open(issues_path, "r") as f:
+                    raw_issues = json.load(f)
+                    # Safe parse: only load if it's a valid list of dictionaries
+                    if isinstance(raw_issues, list):
+                        for issue in raw_issues:
+                            if isinstance(issue, dict):
+                                open_issues.append(Issue(**issue))
+            except Exception:
+                pass # If the AI corrupted the file, we just return an empty list
 
         return Observation(
             working_dir_files=files,
@@ -98,15 +105,21 @@ class AutoMaintainerEnv:
 
             # --- ACTION: EDIT FILE ---
             elif action.action_type == "EDIT_FILE":
-                target_path = os.path.join(self.workspace_dir, action.filepath)
-                # FIX: Protect against the LLM forgetting the content
-                safe_content = action.new_content if action.new_content is not None else ""
-                
-                with open(target_path, "w") as f:
-                    f.write(safe_content)
-                self.current_test_output = f"Successfully updated {action.filepath}."
-                reward_value = 0.1
-                reward_reason = "File edited successfully."
+                # Bulletproof Patch: Block manual editing of the issues database
+                if action.filepath == ".issues.json":
+                    self.current_test_output = "Error: Access Denied. You must use the LABEL_ISSUE action to modify issues."
+                    reward_value = -0.5
+                    reward_reason = "Attempted to manually hack the issues database."
+                else:
+                    target_path = os.path.join(self.workspace_dir, action.filepath)
+                    # FIX: Protect against the LLM forgetting the content
+                    safe_content = action.new_content if action.new_content is not None else ""
+                    
+                    with open(target_path, "w") as f:
+                        f.write(safe_content)
+                    self.current_test_output = f"Successfully updated {action.filepath}."
+                    reward_value = 0.1
+                    reward_reason = "File edited successfully."
 
             # --- ACTION: RUN PYTEST ---
             elif action.action_type == "RUN_PYTEST":
