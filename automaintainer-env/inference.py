@@ -97,7 +97,8 @@ NEVER output anything other than the raw JSON object. Do not include markdown or
 
     # 6. Evaluate the final score using our deterministic grader
     grader = AutoMaintainerGrader(env.workspace_dir)
-    final_score = grader.grade(task_level)
+    # GOD-TIER UPGRADE: Pass the step count to the grader to calculate efficiency penalties
+    final_score = grader.grade(task_level, env.step_count)
     print(f"\n🏁 TASK '{task_level.upper()}' COMPLETE.")
     print(f"🏆 FINAL SCORE: {final_score} / 1.0")
     
@@ -107,9 +108,9 @@ if __name__ == "__main__":
     # Initialize the core environment
     env = AutoMaintainerEnv()
     
-    # Run the baseline across all three difficulties
+    # Run the baseline across all difficulties (now including the Extreme AI Safety task)
     scores = {}
-    for difficulty in ["easy", "medium", "hard"]:
+    for difficulty in ["easy", "medium", "hard", "extreme"]:
         score = run_agent_on_task(env, difficulty)
         scores[difficulty] = score
         
