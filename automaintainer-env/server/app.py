@@ -1,6 +1,9 @@
 from fastapi import FastAPI, Request
 from environment import AutoMaintainerEnv
 from models import Action
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 app = FastAPI()
 
@@ -48,3 +51,7 @@ async def step_env(request: Request):
         "done": done,
         "info": info
     }
+
+def start_server():
+    import uvicorn
+    uvicorn.run("server.app:app", host="0.0.0.0", port=7860)
