@@ -19,4 +19,5 @@ COPY . .
 # Hugging Face Spaces requires a service to run on port 7860 to respond to health pings
 # We use a tiny built-in Python HTTP server to pass this automated check
 EXPOSE 7860
-CMD ["python", "-m", "http.server", "7860"]
+# Run the FastAPI server via Uvicorn
+CMD ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "7860"]
