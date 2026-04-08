@@ -39,8 +39,9 @@ def clean_json_response(raw_text: str) -> str:
 
 def run_agent_on_task(env: AutoMaintainerEnv, task_level: str) -> float:
     """Runs the LLM agent loop for a specific task difficulty."""
-    # STRICT FORMAT: START (Required by Automated Checker)
-    print(f"START: {task_level}")
+    
+    # EXACT FORMAT REQUIRED BY AUTOGRADER: [START] task=NAME
+    print(f"[START] task={task_level}", flush=True)
     
     obs = env.reset(task_level=task_level)
     done = False
@@ -84,11 +85,12 @@ NEVER output anything other than the raw JSON object. Do not include markdown or
             # 4. Validate using our Pydantic Model
             action = Action(**action_dict)
             
-            # STRICT FORMAT: STEP (Required by Automated Checker)
-            print(f"STEP: {action.action_type} on {action.filepath or action.issue_id or 'Global'}")
-            
             # 5. Take the step in the environment
             obs, reward, done, info = env.step(action)
+            
+            # EXACT FORMAT REQUIRED BY AUTOGRADER: [STEP] step=1 reward=0.5
+            # Note: This is now placed AFTER env.step() so it can access the reward value
+            print(f"[STEP] step={env.step_count} reward={reward.value}", flush=True)
             
             # Prevent hitting rate limits during the hackathon validation
             time.sleep(4) 
@@ -96,15 +98,15 @@ NEVER output anything other than the raw JSON object. Do not include markdown or
         except json.JSONDecodeError:
             messages.append({"role": "user", "content": "ERROR: Your last output was not valid JSON. Please format exactly as requested."})
         except Exception as e:
-            print(f"Error during step execution: {e}")
+            print(f"Error during step execution: {e}", flush=True)
             break
 
     # 6. Evaluate the final score using our deterministic grader
     grader = AutoMaintainerGrader(env.workspace_dir)
     final_score = grader.grade(task_level, env.step_count)
     
-    # STRICT FORMAT: END (Required by Automated Checker)
-    print(f"END: {task_level}")
+    # EXACT FORMAT REQUIRED BY AUTOGRADER: [END] task=NAME score=0.95 steps=1
+    print(f"[END] task={task_level} score={final_score} steps={env.step_count}", flush=True)
     
     return final_score
 
