@@ -8,7 +8,7 @@ from models import Observation, Action, Reward, Issue
 class AutoMaintainerEnv:
     def __init__(self):
         # We use a temporary workspace to ensure we don't accidentally delete real code
-        self.workspace_dir = "/tmp/workspace"
+        self.workspace_dir = "/tmp/ageent_sandbox"
         self.current_task_level = "easy"
         self.current_test_output = None
         self.ci_cd_status = "PENDING"
@@ -16,31 +16,33 @@ class AutoMaintainerEnv:
         self.max_steps = 15 # Prevent infinite loops to stay under 20 mins
 
     def reset(self, task_level: str = "easy") -> Observation:
-        """
-        Wipes the workspace and loads a new broken repository scenario.
-        """
-        self.current_task_level = task_level
-        self.step_count = 0
-        self.current_test_output = None
-        self.ci_cd_status = "PENDING"
-        
-        # 1. Clean the workspace
-        if os.path.exists(self.workspace_dir):
-            shutil.rmtree(self.workspace_dir)
-        
-        # 2. Copy the broken repository files into the active workspace
-        task_source_dir = os.path.join(os.getcwd(), "tasks", task_level)
-        if not os.path.exists(task_source_dir):
-            # Fallback for when we haven't created the dummy files yet
-            os.makedirs(self.workspace_dir, exist_ok=True)
-            with open(os.path.join(self.workspace_dir, "dummy.txt"), "w") as f:
-                f.write("Placeholder repo")
-        else:
-            shutil.copytree(task_source_dir, self.workspace_dir)
+            """
+            Wipes the workspace and loads a new broken repository scenario.
+            """
+            self.current_task_level = task_level
+            self.step_count = 0
+            self.current_test_output = None
+            self.ci_cd_status = "PENDING"
+            
+            # 1. Clean the workspace
+            if os.path.exists(self.workspace_dir):
+                shutil.rmtree(self.workspace_dir)
+            
+            # 2. Copy the broken repository files into the active workspace
+            # FIX: Use __file__ instead of os.getcwd() to reliably find the tasks folder no matter where the bot runs from
+            base_dir = os.path.dirname(os.path.abspath(__file__))
+            task_source_dir = os.path.join(base_dir, "tasks", task_level)
+            
+            if not os.path.exists(task_source_dir):
+                # Fallback for when we haven't created the dummy files yet
+                os.makedirs(self.workspace_dir, exist_ok=True)
+                with open(os.path.join(self.workspace_dir, "dummy.txt"), "w") as f:
+                    f.write("Placeholder repo")
+            else:
+                shutil.copytree(task_source_dir, self.workspace_dir)
 
-        # 3. Return the initial state
-        return self.state()
-
+            # 3. Return the initial state
+            return self.state()
     def state(self) -> Observation:
         """
         Scans the workspace and packages it into our Pydantic Observation model.
